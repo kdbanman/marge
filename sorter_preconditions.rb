@@ -24,7 +24,6 @@ module SorterPreconditions
 
   def indexMutable(unsorted)
     msg = "Container must respond to [] and []="
-
     raise ContractFailure, msg unless (unsorted.respond_to? :[]) && (unsorted.respond_to? :[]=)
   end
 
