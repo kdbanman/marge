@@ -7,16 +7,16 @@ Fast, flexible sort using multithreaded Ruby.
 See the [spaceship operator, `<=>`](http://ruby-doc.org/core-1.9.3/Comparable.html)
 
 ```ruby
-require ('marge')
+require ('sorter')
 
 unsorted = ['enumerable', 'of', 'things', 'comparable', 'with', '<=>']
 
 unsorted_big = unsorted * 420000
 maximum_time = 5000 # milliseconds
 
-sorted = Marge.sort(unsorted)
+sorted = Sorter.sort(unsorted)
 
-sorted_big = Marge.sort(unsorted_big, maximum_time)
+sorted_big = Sorter.sort(unsorted_big, maximum_time)
 ```
 
 The sort is not in place - the input `Enumerable` is always unaffected.
