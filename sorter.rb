@@ -1,6 +1,7 @@
 require "./sorter_preconditions"
 require "./sorter_postconditions"
 
+# Module exposing and implementing interface for parallelized sorting
 module Sorter
 
   include SorterPreconditions
