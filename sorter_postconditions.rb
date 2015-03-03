@@ -2,11 +2,6 @@ require "./contracted"
 
 module SorterPostconditions
 
-  def enumerableResult(result)
-    msg = "Result must be enumerable"
-    raise ContractFailure, msg unless result.is_a? Enumerable
-  end
-
   def sortedResult(result, ascending)
     msg = "Result must be sorted in #{ascending ? "ascending" : "descending"}"
     raise ContractFailure, msg unless result.each_cons(2) { |left, right| ascending ? left <= right : left >= right }
