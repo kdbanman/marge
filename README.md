@@ -16,11 +16,12 @@ maximum_time = 5000 # milliseconds
 
 sorted = Sorter.sort(unsorted)
 
-sorted_big = Sorter.sort(unsorted_big, maximum_time)
+sorted_big = Sorter.sort(unsorted_big, maximum_time, ascending = false)
 ```
 
 The sort is not in place - the input `Enumerable` is always unaffected.
 If the maximum time is exceeded, the intermediate result is returned.
+The default sort order is ascending.
 
 ### License
 

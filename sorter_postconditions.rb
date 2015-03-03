@@ -2,7 +2,7 @@ require "./contracted"
 
 module SorterPostconditions
 
-  def arrayResult(result)
+  def enumerableResult(result)
     msg = "Result must be enumerable"
     raise ContractFailure, msg unless result.is_a? Enumerable
   end
