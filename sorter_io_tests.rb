@@ -40,11 +40,15 @@ class SorterIOTests < Minitest::Test
 	end
 
 	def test_neg_ints
-		assert(parse_list("-10\n-11").is_a? Enumerable)
+		list = parse_list("-10\n-11")
+		assert(list.is_a? Enumerable)
+		list.each {|val| assert(val < 0)}
 	end
 
 	def test_neg_floats
-		assert(parse_list("-10.5\n-11.2").is_a? Enumerable)
+		list = parse_list("-10.5\n-11.2")
+		assert(list.is_a? Enumerable)
+		list.each {|val| assert(val < 0)}
 	end
 
 	def test_proper_type_float

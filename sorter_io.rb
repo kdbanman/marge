@@ -37,9 +37,9 @@ module SorterIO
     list = string.split("\n")
     out = []
     (0...list.length).each do |i|
-      if /\d+(\.\d+)/.match(list[i]) #float
+      if /[-]?\d+(\.\d+)/.match(list[i]) #float
         out << list[i].to_f
-      elsif /\d+/.match(list[i])
+      elsif /[-]?\d+/.match(list[i])
         out << list[i].to_i
       else
         out << list[i]
