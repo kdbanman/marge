@@ -5,8 +5,6 @@ require './sorter.rb'
 
 class SorterTests < Minitest::Test
 
-	include Sorter
-
 	#Contract Testing
 	def test_enumerable_con
 		assert_raises(ContractFailure) {Sorter.sort(10)}
@@ -26,6 +24,13 @@ class SorterTests < Minitest::Test
 
 	def test_nil_timour
 		assert_raises(ContractFailure) {Sorter.sort([10,10,10], nil)}
+	end
+
+	#Sort Tests
+	def test_sort_trivial
+		a = [5,9,1,2,1,8]
+		b = a.sort
+		Sorter.sort(a)
 	end
 
 end
