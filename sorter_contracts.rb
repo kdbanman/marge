@@ -16,7 +16,7 @@ module SorterContracts
     return if get_length(unsorted) < 1
     msg = "All elements must be comparable with each other."
     first = unsorted[0]
-    raise ContractFailure, msg if unsorted.any? { |element| (element <=> first) != nil }
+    raise ContractFailure, msg if unsorted.any? { |element| (element <=> first) == nil }
   end
 
   def SorterContracts.isComparable(*args)
@@ -96,9 +96,9 @@ module SorterContracts
     mid = (from + to) / 2
 
     if target < list[mid]
-      return SorterContracts.sorted_contains list, target, from, mid - 1
+      return SorterContracts.sorted_contains target, list, from, mid - 1
     elsif target > list[mid]
-      return SorterContracts.sorted_contains list, target, mid + 1, to
+      return SorterContracts.sorted_contains target, list, mid + 1, to
     else
       return list[mid] == target
     end
