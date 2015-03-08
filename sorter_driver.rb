@@ -61,7 +61,6 @@ eof
 			puts "too many paths"
 			exit 0
 		end
-			
 
 		@path = ARGV[0]
 	end

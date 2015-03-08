@@ -9,7 +9,7 @@ module Sorter
 
   public
 
-  def sort(unsorted, timeout = 0, ascending = true)
+  def self.sort(unsorted, timeout = 0, ascending = true)
     # preconditions
     isEnumerable unsorted
     sortComparable unsorted
