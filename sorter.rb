@@ -8,19 +8,6 @@ module Sorter
   public
 
   def Sorter.sort(unsorted, timeout = 0, ascending = true)
-
-    begin
-      sorted = Sorter.contracted_sort(unsorted, 0, ascending)
-    rescue ContractFailure => failure
-      puts failure.msg
-    end
-
-    sorted
-  end
-
-  private
-
-  def Sorter.contracted_sort(unsorted, timeout = 0, ascending = true)
     # preconditions
     SorterContracts.isEnumerable unsorted
     SorterContracts.contentsIntercomparable unsorted
@@ -44,6 +31,8 @@ module Sorter
 
     sorted
   end
+
+  private
 
   def Sorter.get_length(obj)
     # precondition
