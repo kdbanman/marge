@@ -8,9 +8,22 @@ module Sorter
   public
 
   def Sorter.sort(unsorted, timeout = 0, ascending = true)
+
+    begin
+      sorted = Sorter.contracted_sort(unsorted, 0, ascending)
+    rescue ContractFailure => failure
+      puts failure.msg
+    end
+
+    sorted
+  end
+
+  private
+
+  def Sorter.contracted_sort(unsorted, timeout = 0, ascending = true)
     # preconditions
     SorterContracts.isEnumerable unsorted
-    SorterContracts.contentsComparable unsorted
+    SorterContracts.contentsIntercomparable unsorted
     SorterContracts.hasLength unsorted
     SorterContracts.indexMutable unsorted
     SorterContracts.isBoolean ascending
@@ -32,8 +45,6 @@ module Sorter
     sorted
   end
 
-  private
-
   def Sorter.get_length(obj)
     # precondition
     SorterContracts.hasLength(obj)
@@ -49,7 +60,7 @@ module Sorter
     SorterContracts.isEnumerable sorted_output
     SorterContracts.integers left, right, sorted_output_left
     SorterContracts.legalBounds left, right, unsorted
-    SorterContracts.contentsComparable unsorted
+    SorterContracts.contentsIntercomparable unsorted
     SorterContracts.hasLength unsorted
     SorterContracts.indexReadable unsorted
     SorterContracts.indexMutable sorted_output
@@ -83,7 +94,7 @@ module Sorter
     SorterContracts.integers left1, right1, left2, right2, merged_output_left
     SorterContracts.isEnumerable list
     SorterContracts.isEnumerable merged_output
-    SorterContracts.contentsComparable list
+    SorterContracts.contentsIntercomparable list
     SorterContracts.hasLength list
     SorterContracts.indexReadable list
     SorterContracts.indexMutable merged_output
@@ -122,7 +133,7 @@ module Sorter
     SorterContracts.isEnumerable list
     SorterContracts.indexReadable list
     SorterContracts.hasLength list
-    SorterContracts.contentsComparable list
+    SorterContracts.contentsIntercomparable list
     SorterContracts.integers left, right
 
     right = left > right + 1 ? left : right + 1
@@ -149,3 +160,21 @@ puts "unsorted:"
 puts a
 puts "sorted:"
 puts Sorter.sort(a)
+
+puts "empty:"
+puts Sorter.sort([])
+
+puts "singlet:"
+puts Sorter.sort([1])
+
+puts "nil singlet:"
+puts Sorter.sort([nil])
+
+puts "nil somewhere:"
+puts Sorter.sort([2, 2, nil, 9])
+
+puts "strings:"
+puts Sorter.sort(["text", "what", "is", "this", "words", "what", "9"])
+
+puts "strings and ints:"
+puts Sorter.sort(["what", 42, "numbers?"])

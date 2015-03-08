@@ -8,8 +8,15 @@ module SorterContracts
   end
 
   def SorterContracts.contentsComparable(unsorted)
-    msg = "Only objects comparable by <=> may be sorted"
-    raise ContractFailure, msg if unsorted.any? { |element| !element.respond_to? :<=>}
+    msg = "Only objects that are comparable may be sorted"
+    raise ContractFailure, msg if unsorted.any? { |element| !element.is_a? Comparable}
+  end
+
+  def SorterContracts.contentsIntercomparable(unsorted)
+    return if get_length(unsorted) < 1
+    msg = "All elements must be comparable with each other."
+    first = unsorted[0]
+    raise ContractFailure, msg if unsorted.any? { |element| (element <=> first) != nil }
   end
 
   def SorterContracts.isComparable(*args)
@@ -67,10 +74,9 @@ module SorterContracts
     raise ContractFailure, msg unless result.each_cons(2).all? { |left, right| ascending ? left <= right : left >= right }
   end
 
-  #Note: O(n^2) runtime.  Could be optimized by binary search over sorted list.
   def SorterContracts.isomorphicContents(sorted, unsorted)
     msg = "Result must contain every value within input"
-    raise ContractFailure, msg unless unsorted.all? { |element| sorted.include? element }
+    raise ContractFailure, msg unless unsorted.all? { |element| sorted_contains(element, sorted) }
   end
 
   #################
@@ -84,6 +90,18 @@ module SorterContracts
     return obj.length if obj.respond_to? :length
     return obj.size if obj.respond_to? :size
     return obj.count if obj.respond_to? :count
+  end
+
+  def SorterContracts.sorted_contains(target, list, from = 0, to = get_length(list) - 1)
+    mid = (from + to) / 2
+
+    if target < list[mid]
+      return SorterContracts.sorted_contains list, target, from, mid - 1
+    elsif target > list[mid]
+      return SorterContracts.sorted_contains list, target, mid + 1, to
+    else
+      return list[mid] == target
+    end
   end
 
 end
