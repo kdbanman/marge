@@ -47,4 +47,19 @@ class SorterIOTests < Minitest::Test
 		assert(parse_list("-10.5\n-11.2").is_a? Enumerable)
 	end
 
+	def test_proper_type_float
+		list = parse_list("10.3\n11.4\n12.5")
+		list.each {|val| assert(val.is_a? Float)}
+	end
+
+	def test_proper_type_int
+		list = parse_list("10\n11\n12")
+		list.each {|val| assert(val.is_a? Integer)}
+	end
+
+	def test_proper_type_string
+		list = parse_list("a\nb\nc")
+		list.each {|val| assert(val.is_a? String)}
+	end
+
 end
