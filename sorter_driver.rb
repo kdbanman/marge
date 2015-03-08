@@ -68,7 +68,7 @@ eof
 		isInteger(@milliseconds)
 		isPositive(@milliseconds)
 
-		sort_file(@path)
+		puts sort_file(@path)
 	end
 
 end

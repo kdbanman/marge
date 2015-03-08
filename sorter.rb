@@ -143,9 +143,9 @@ module Sorter
 
 end
 
-a = [5,9,1,2,1,8]
+# a = [5,9,1,2,1,8]
 
-puts "unsorted:"
-puts a
-puts "sorted:"
-puts Sorter.sort(a)
+# puts "unsorted:"
+# puts a
+# puts "sorted:"
+# puts Sorter.sort(a)
