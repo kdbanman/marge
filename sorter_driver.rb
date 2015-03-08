@@ -13,9 +13,7 @@ class SorterDriver
 		@milliseconds = 3600000
 		@opts = GetoptLong.new(
 			['--help', '-h', GetoptLong::NO_ARGUMENT],
-			['-s', GetoptLong::REQUIRED_ARGUMENT],
-			['-n', GetoptLong::REQUIRED_ARGUMENT],
-			['-m', GetoptLong::REQUIRED_ARGUMENT]
+			['-t', GetoptLong::REQUIRED_ARGUMENT],
 		)
 		parseArgs
 	end
