@@ -147,3 +147,18 @@ module Sorter
   end
 
 end
+
+module Watchdog
+
+  def Watchdog.watchThread(time, thread)
+  SorterContracts.positiveIntegerTimeout time
+  Thread.new do
+    sleep(time/1000)
+    if thread.alive?
+      thread.kill
+      Thread.main.raise "Watchdog timer expired"
+    end
+    end
+  end
+
+end 
