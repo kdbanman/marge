@@ -74,9 +74,9 @@ module SorterContracts
     raise ContractFailure, msg unless result.each_cons(2).all? { |left, right| ascending ? left <= right : left >= right }
   end
 
-  def SorterContracts.isomorphicContents(sorted, unsorted)
+  def SorterContracts.isomorphicContents(sorted, unsorted, ascending)
     msg = "Result must contain every value within input"
-    raise ContractFailure, msg unless unsorted.all? { |element| sorted_contains(element, sorted) }
+    raise ContractFailure, msg unless unsorted.all? { |element| sorted_contains(element, sorted, ascending) }
   end
 
   #################
@@ -92,13 +92,18 @@ module SorterContracts
     return obj.count if obj.respond_to? :count
   end
 
-  def SorterContracts.sorted_contains(target, list, from = 0, to = get_length(list) - 1)
-    mid = (from + to) / 2
+  def SorterContracts.sorted_contains(target, list, left = 0, right = get_length(list) - 1, ascending)
+    mid = (left + right) / 2
+
+    less_left = ascending ? left : mid + 1
+    less_right = ascending ? mid - 1 : right
+    more_left = ascending ? mid + 1 : left
+    more_right = ascending ? right : mid - 1
 
     if target < list[mid]
-      return SorterContracts.sorted_contains target, list, from, mid - 1
+      return SorterContracts.sorted_contains target, list, less_left, less_right
     elsif target > list[mid]
-      return SorterContracts.sorted_contains target, list, mid + 1, to
+      return SorterContracts.sorted_contains target, list, more_left, more_right
     else
       return list[mid] == target
     end
