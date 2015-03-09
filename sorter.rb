@@ -11,6 +11,7 @@ module Sorter
 
     # preconditions
     SorterContracts.isEnumerable unsorted
+    SorterContracts.contentsComparable unsorted
     SorterContracts.contentsIntercomparable unsorted
     SorterContracts.hasLength unsorted
     SorterContracts.indexMutable unsorted
@@ -50,6 +51,7 @@ module Sorter
     SorterContracts.isEnumerable sorted_output
     SorterContracts.integers left, right, sorted_output_left
     SorterContracts.legalBounds left, right, unsorted
+    SorterContracts.contentsComparable unsorted
     SorterContracts.contentsIntercomparable unsorted
     SorterContracts.hasLength unsorted
     SorterContracts.indexReadable unsorted
@@ -84,6 +86,7 @@ module Sorter
     SorterContracts.integers left1, right1, left2, right2, merged_output_left
     SorterContracts.isEnumerable list
     SorterContracts.isEnumerable merged_output
+    SorterContracts.contentsComparable list
     SorterContracts.contentsIntercomparable list
     SorterContracts.hasLength list
     SorterContracts.indexReadable list
@@ -119,6 +122,7 @@ module Sorter
 
   def Sorter.binary_search(target, list, left, right)
     # preconditions
+    SorterContracts.contentsComparable list
     SorterContracts.isComparable target
     SorterContracts.isEnumerable list
     SorterContracts.indexReadable list

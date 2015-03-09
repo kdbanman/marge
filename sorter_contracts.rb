@@ -9,7 +9,7 @@ module SorterContracts
 
   def SorterContracts.contentsComparable(unsorted)
     msg = "Only objects that are comparable may be sorted"
-    raise ContractFailure, msg if unsorted.any? { |element| !element.is_a? Comparable}
+    raise ContractFailure, msg unless unsorted.all? { |element| element.is_a? Comparable}
   end
 
   def SorterContracts.contentsIntercomparable(unsorted)
