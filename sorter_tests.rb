@@ -26,11 +26,64 @@ class SorterTests < Minitest::Test
 		assert_raises(ContractFailure) {Sorter.sort([10,10,10], nil)}
 	end
 
+	def test_sort_empty
+		assert_raises(ContractFailure) {Sorter.sort([])}
+	end
+
+	def test_sort_nil_somewhere
+		a = [2, 2, nil, 9]
+		assert_raises(ContractFailure) {Sorter.sort(a)}
+	end
+
+	def test_sort_mixed
+		a = ["what", 42, "numbers?"]
+		assert_raises(ContractFailure) {Sorter.sort(a)}
+	end
+
 	#Sort Tests
 	def test_sort_trivial
 		a = [5,9,1,2,1,8]
 		b = a.sort
-		Sorter.sort(a)
+		assert(Sorter.sort(a) == b)
 	end
 
+	def test_sort_singlet
+		assert(Sorter.sort([1]) == [1])
+	end
+
+	def test_sort_nil_singlet
+		assert(Sorter.sort([nil]) == [nil])
+	end
+	
+	def test_sorts_trings
+		a = ["text", "what", "is", "this", "words", "what", "9"]
+		b = a.sort
+		assert(Sorter.sort(a) == b)
+	end
+
+	def test_sort_ordered
+		a = [1,2,3,4,5,6]
+		assert(Sorter.sort(a) == a)
+	end
+
+	def test_sort_descending_ordered
+		a = [5,4,3,2,1]
+		assert(Sorter.sort(a) == a.sort)
+	end
+
+	def test_same_number
+		a = [1,1,1,1,1,1,1,1]
+		assert(Sorter.sort(a) == a)
+	end
+
+	def test_negative
+		a = [-10,-5, 0 -100, 10, 20]
+		assert(Sorter.sort(a) == a.sort)
+	end
+
+	def test_negaative_floats
+		a = [-10.5, -10.4, -11.3, -100.65]
+		assert(Sorter.sort(a) == a.sort)
+	end
+	
 end

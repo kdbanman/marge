@@ -8,7 +8,7 @@ module Sorter
   public
 
   def Sorter.sort(unsorted, timeout = 0, ascending = true)
-    
+
     # preconditions
     SorterContracts.isEnumerable unsorted
     SorterContracts.contentsIntercomparable unsorted
@@ -143,28 +143,3 @@ module Sorter
   end
 
 end
-
-# a = [5,9,1,2,1,8]
-
-# puts "unsorted:"
-# puts a
-# puts "sorted:"
-# puts Sorter.sort(a)
-
-# puts "empty:"
-# puts Sorter.sort([])
-
-# puts "singlet:"
-# puts Sorter.sort([1])
-
-# puts "nil singlet:"
-# puts Sorter.sort([nil])
-
-# puts "nil somewhere:"
-# puts Sorter.sort([2, 2, nil, 9])
-
-# puts "strings:"
-# puts Sorter.sort(["text", "what", "is", "this", "words", "what", "9"])
-
-# puts "strings and ints:"
-# puts Sorter.sort(["what", 42, "numbers?"])
