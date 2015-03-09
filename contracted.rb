@@ -8,3 +8,10 @@ class ContractFailure < StandardError
   end
 
 end
+
+class TimeoutFailure < RuntimeError
+	
+	def initalize()
+		super "Watchdog Timer has expired"
+	end
+end

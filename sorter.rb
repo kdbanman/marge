@@ -156,7 +156,7 @@ module Watchdog
     sleep(time/1000)
     if thread.alive?
       thread.kill
-      Thread.main.raise "Watchdog timer expired"
+      Thread.main.raise TimeoutFailure
     end
     end
   end
