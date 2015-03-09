@@ -40,6 +40,10 @@ class SorterTests < Minitest::Test
 		assert_raises(ContractFailure) {Sorter.sort(a)}
 	end
 
+  def test_sort_nil_singlet
+    assert_raises(ContractFailure) {Sorter.sort([nil]) == [nil]}
+  end
+
 	#Sort Tests
 	def test_sort_trivial
 		a = [5,9,1,2,1,8]
@@ -49,10 +53,6 @@ class SorterTests < Minitest::Test
 
 	def test_sort_singlet
 		assert(Sorter.sort([1]) == [1])
-	end
-
-	def test_sort_nil_singlet
-		assert(Sorter.sort([nil]) == [nil])
 	end
 	
 	def test_sorts_trings

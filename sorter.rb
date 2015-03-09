@@ -16,7 +16,7 @@ module Sorter
     SorterContracts.hasLength unsorted
     SorterContracts.indexMutable unsorted
     SorterContracts.isBoolean ascending
-    SorterContracts.integerTimeout timeout
+    SorterContracts.positiveIntegerTimeout timeout
 
     sorted = Array.new(Sorter.get_length(unsorted))
 

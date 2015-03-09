@@ -54,9 +54,9 @@ module SorterContracts
     raise ContractFailure, msg unless !!ascending == ascending
   end
 
-  def SorterContracts.integerTimeout(timeout)
+  def SorterContracts.positiveIntegerTimeout(timeout)
     msg = "Timeout must be specified by an integer number of milliseconds"
-    raise ContractFailure, msg unless timeout.is_a? Integer
+    raise ContractFailure, msg unless (timeout.is_a? Integer) && (timeout >= 0)
   end
 
   def SorterContracts.integers(*args)
