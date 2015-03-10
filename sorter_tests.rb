@@ -114,9 +114,6 @@ class SorterTests < Minitest::Test
     assert(Sorter.sort(a) == a.sort)
     assert(Sorter.sort(a, 0, false) == a.sort.reverse)
   end
-
-  # TODO test sort other index-accessible enumerables
-  # TODO test sort custom comparator
 	
 end
 
