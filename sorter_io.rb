@@ -7,16 +7,18 @@ module SorterIO
 
   include SorterIOContracts
 
-  def sort_file(filename)
+  def sort_file(filename, time, ascending)
     # preconditions
     isString filename
     fileExists filename
     fileReadable filename
+    isInteger time
+    isPositive time
 
     raw = File.read(filename)
     list = parse_list(raw)
     
-    sorted = Sorter::sort(list)
+    sorted = Sorter::sort(list, time, ascending)
 
     # postconditions
     isEnumerable sorted
