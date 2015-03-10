@@ -68,10 +68,24 @@ class SorterIOTests < Minitest::Test
 
 	def test_mixed_strings
 		list = ["dasd324234@$%", "4%{$fsdjhagsh", "FSDF", "4209843fdfgsd"]
+		io_parser_helper_strings(list)
+	end
+
+	def test_strcomp
+		#letters come first, this should do string compare
+		io_parser_helper_strings(["aa", "10", "bb"])
+	end
+
+	#Tests:
+	# => output of parse_list is enumerable
+	# => contents of list are strings
+	# => the output is mapped 1 to 1 of the input
+	def io_parser_helper_strings(list)
 		stringForm = list.inject {|str, n| str + "\n" + n}
 		out = parse_list stringForm
 		assert(out.is_a? Enumerable)
 		out.each {|val| assert(val.is_a? String)}
 		assert(list.sort == out.sort)
 	end
+
 end

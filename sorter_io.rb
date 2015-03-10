@@ -39,15 +39,18 @@ module SorterIO
     list = string.split("\n")
     out = []
 
+    numbers = true;
+
     #This ugly loop is so that we can make sure the objects are comparable to one another
     #while we are walking over the string array. (no overhead)
     (0...list.length).each do |i|
-      if /^[-]?\d+(\.\d+)$/.match(list[i]) #float
+      if /^[-]?\d+(\.\d+)$/.match(list[i]) and numbers #float
         out << list[i].to_f
-      elsif /^[-]?\d+$/.match(list[i])  #int
+      elsif /^[-]?\d+$/.match(list[i]) and numbers  #int
         out << list[i].to_i
-      else
+      else 
         out << list[i]  #push it on, and let the comparable check decide if we are good
+        numbers = false
       end
       isComparable(i, out)
     end
