@@ -8,11 +8,11 @@ class SorterIOTests < Minitest::Test
 	include SorterIO
 
 	def test_bad_file_dne
-		assert_raises(ContractFailure) {sort_file("./badfile.txt")}
+		assert_raises(ContractFailure) {sort_file("./badfile.txt", 1000000, true)}
 	end
 
 	def test_nonstring
-		assert_raises(ContractFailure) {sort_file(10)}
+		assert_raises(ContractFailure) {sort_file(10, 1000000, true)}
 	end
 
 	def test_mixed_types

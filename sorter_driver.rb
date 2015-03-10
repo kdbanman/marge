@@ -11,9 +11,11 @@ class SorterDriver
 	def initialize
 		#1 hour timeout default
 		@milliseconds = 3600000
+		@ascending = true
 		@opts = GetoptLong.new(
 			['--help', '-h', GetoptLong::NO_ARGUMENT],
 			['-t', GetoptLong::REQUIRED_ARGUMENT],
+			['-d', GetoptLong::NO_ARGUMENT]
 		)
 		parseArgs
 	end
@@ -35,10 +37,13 @@ OPTIONS:
 ========
 -t <milliseconds>
 	Defualt is 1 hour
+-d sort the list in descending order
 eof
 						exit(0)
 						when '-t'
 							@milliseconds = arg.to_i
+						when '-d'
+							@ascending = false
 					end
 			end
 		rescue GetoptLong::InvalidOption
@@ -68,7 +73,7 @@ eof
 		isInteger(@milliseconds)
 		isPositive(@milliseconds)
 
-		puts sort_file(@path)
+		puts sort_file(@path, @milliseconds, @ascending)
 	end
 
 end
