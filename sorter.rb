@@ -80,8 +80,9 @@ module Sorter
       mid_length = mid - left + 1
       unmerged = Array.new(length)
 
-      Sorter.mergesort(unsorted, left, mid, unmerged, 0, ascending)
+      concurrent = Thread.new { Sorter.mergesort(unsorted, left, mid, unmerged, 0, ascending) }
       Sorter.mergesort(unsorted, mid + 1, right, unmerged, mid_length, ascending)
+      concurrent.join
 
       Sorter.merge(unmerged, 0, mid_length - 1, mid_length, length - 1, sorted_output, sorted_output_left, ascending)
 
@@ -123,9 +124,10 @@ module Sorter
     merged_output[storage_idx] = list[mid]
 
     # TODO use ascending somehow
-    
-    Sorter.merge(list, left1, mid - 1, left2, pivot - 1, merged_output, merged_output_left, ascending)
+
+    concurrent = Thread.new { Sorter.merge(list, left1, mid - 1, left2, pivot - 1, merged_output, merged_output_left, ascending) }
     Sorter.merge(list, mid + 1, right1, pivot, right2, merged_output, storage_idx + 1, ascending)
+    concurrent.join
 
     # postconditions
     SorterContracts.isEnumerable merged_output

@@ -41,8 +41,8 @@ class SorterTests < Minitest::Test
 	end
 
         def test_timeout_error
-                a = Array.new(5000).map!{ rand() }
-                assert_raises(Timeout::Error) {Sorter.sort(a, 10)}
+                a = Array.new(500).map!{ rand() }
+                assert_raises(Timeout::Error) {Sorter.sort(a, 2)}
         end
 
 

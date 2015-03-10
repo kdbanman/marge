@@ -1,6 +1,6 @@
 # marge
 
-Fast, flexible sort using multithreaded Ruby.
+Slow, flexible sort using multithreaded Ruby.
 
 ### Usage
 
