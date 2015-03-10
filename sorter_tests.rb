@@ -40,15 +40,15 @@ class SorterTests < Minitest::Test
 		assert_raises(ContractFailure) {Sorter.sort(a)}
 	end
 
-        def test_timeout_error
-                a = Array.new(500).map!{ rand() }
-                assert_raises(Timeout::Error) {Sorter.sort(a, 2)}
-        end
+  def test_timeout_error
+    a = Array.new(500).map!{ rand() }
+    assert_raises(Timeout::Error) {Sorter.sort(a, 2)}
+  end
 
 
-        def test_sort_nil_singlet
-                assert_raises(ContractFailure) {Sorter.sort([nil]) == [nil]}
-        end
+  def test_sort_nil_singlet
+    assert_raises(ContractFailure) {Sorter.sort([nil]) == [nil]}
+  end
 
 	#Sort Tests
 	def test_sort_trivial
@@ -97,14 +97,40 @@ class SorterTests < Minitest::Test
 		assert(Sorter.sort(a, 0, false) == a.sort.reverse)
 	end
 
-        def test_large_random
-                a = Array.new(500).map!{ (rand() * 2000 - 1000).floor }
-                assert(Sorter.sort(a) == a.sort)
-		assert(Sorter.sort(a, 0, false) == a.sort.reverse)
-        end
+  def test_large_random
+    a = Array.new(500).map!{ (rand() * 2000 - 1000).floor }
+    assert(Sorter.sort(a) == a.sort)
+    assert(Sorter.sort(a, 0, false) == a.sort.reverse)
+  end
 
-        # TODO test sort other index-accessible enumerables
-        # TODO test sort other comparable
-        # TODO test sort custom comparator
+  def test_custom_comparable
+    s1 = SizeMatters.new("Z")
+    s2 = SizeMatters.new("YY")
+    s3 = SizeMatters.new("XXX")
+    s4 = SizeMatters.new("WWWW")
+    s5 = SizeMatters.new("VVVVV")
+
+    a = [ s3, s2, s5, s4, s1 ]
+    assert(Sorter.sort(a) == a.sort)
+    assert(Sorter.sort(a, 0, false) == a.sort.reverse)
+  end
+
+  # TODO test sort other index-accessible enumerables
+  # TODO test sort custom comparator
 	
+end
+
+# Taken from Ruby Comparable doc from ruby-doc.org
+class SizeMatters
+  include Comparable
+  attr :str
+  def <=>(anOther)
+    str.size <=> anOther.str.size
+  end
+  def initialize(str)
+    @str = str
+  end
+  def inspect
+    @str
+  end
 end
