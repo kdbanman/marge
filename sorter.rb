@@ -1,3 +1,4 @@
+require "timeout"
 require "./sorter_contracts"
 
 # Module exposing and implementing interface for parallelized sorting
@@ -20,16 +21,29 @@ module Sorter
 
     sorted = Array.new(Sorter.get_length(unsorted))
 
-    #TODO thread stuff
-    #TODO timer stuff
+    # TODO multithread stuff
 
-    mergesort(unsorted, 0, Sorter.get_length(unsorted) - 1, sorted, 0, ascending)
+    # spawn watchdog timer thread
+    watch = Thread.new do
+        Timeout::timeout(timeout / 1000.0) do
+            mergesort(unsorted,                  # source list to sort
+                0,                               # left boundary
+                Sorter.get_length(unsorted) - 1, # right boundary
+                sorted,                          # output list
+                0,                               # output list left boundary
+                ascending)                       # sort order
+        end
+    end
+
+    watch = watch.join
+
+    sorted = sorted.reduce([]) { |reversed, element| [element] + reversed } unless ascending
 
     # postconditions
     SorterContracts.isEnumerable sorted
-    SorterContracts.sortedResult sorted, ascending
     SorterContracts.equalLength sorted, unsorted
-    SorterContracts.isomorphicContents sorted, unsorted
+    SorterContracts.sortedResult(sorted, ascending) unless watch == nil
+    SorterContracts.isomorphicContents(sorted, unsorted, ascending) unless watch == nil
 
     sorted
   end
@@ -45,7 +59,7 @@ module Sorter
     return obj.count if obj.respond_to? :count
   end
 
-  def Sorter.mergesort(unsorted, left, right, sorted_output, sorted_output_left, ascending = true)
+  def Sorter.mergesort(unsorted, left, right, sorted_output, sorted_output_left, ascending)
     # preconditions
     SorterContracts.isEnumerable unsorted
     SorterContracts.isEnumerable sorted_output
@@ -66,14 +80,12 @@ module Sorter
       mid_length = mid - left + 1
       unmerged = Array.new(length)
 
-      Sorter.mergesort(unsorted, left, mid, unmerged, 0)
-      Sorter.mergesort(unsorted, mid + 1, right, unmerged, mid_length)
+      Sorter.mergesort(unsorted, left, mid, unmerged, 0, ascending)
+      Sorter.mergesort(unsorted, mid + 1, right, unmerged, mid_length, ascending)
 
-      Sorter.merge(unmerged, 0, mid_length - 1, mid_length, length - 1, sorted_output, sorted_output_left)
+      Sorter.merge(unmerged, 0, mid_length - 1, mid_length, length - 1, sorted_output, sorted_output_left, ascending)
 
     end
-    #TODO recurse on partitions
-    #TODO merge partitionts
 
     # postconditions
     SorterContracts.isEnumerable sorted_output
@@ -81,7 +93,7 @@ module Sorter
     sorted_output
   end
 
-  def Sorter.merge(list, left1, right1, left2, right2, merged_output, merged_output_left, ascending = true)
+  def Sorter.merge(list, left1, right1, left2, right2, merged_output, merged_output_left, ascending)
     # preconditions
     SorterContracts.integers left1, right1, left2, right2, merged_output_left
     SorterContracts.isEnumerable list
@@ -110,9 +122,10 @@ module Sorter
     storage_idx = merged_output_left + mid - left1 + pivot - left2
     merged_output[storage_idx] = list[mid]
 
-    #TODO use ascending somehow
-    Sorter.merge(list, left1, mid - 1, left2, pivot - 1, merged_output, merged_output_left)
-    Sorter.merge(list, mid + 1, right1, pivot, right2, merged_output, storage_idx + 1)
+    # TODO use ascending somehow
+    
+    Sorter.merge(list, left1, mid - 1, left2, pivot - 1, merged_output, merged_output_left, ascending)
+    Sorter.merge(list, mid + 1, right1, pivot, right2, merged_output, storage_idx + 1, ascending)
 
     # postconditions
     SorterContracts.isEnumerable merged_output
@@ -133,7 +146,7 @@ module Sorter
     right = left > right + 1 ? left : right + 1
     while left < right do
       mid = (left + right) / 2
-      if target <= list[mid]
+      if target <= list[mid] # TODO use ascending
         right = mid
       else
         left = mid + 1
