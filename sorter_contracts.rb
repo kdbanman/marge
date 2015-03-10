@@ -101,9 +101,9 @@ module SorterContracts
     more_right = ascending ? right : mid - 1
 
     if target < list[mid]
-      return SorterContracts.sorted_contains target, list, less_left, less_right
+      return SorterContracts.sorted_contains target, list, less_left, less_right, ascending
     elsif target > list[mid]
-      return SorterContracts.sorted_contains target, list, more_left, more_right
+      return SorterContracts.sorted_contains target, list, more_left, more_right, ascending
     else
       return list[mid] == target
     end
