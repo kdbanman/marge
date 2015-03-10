@@ -21,8 +21,6 @@ module Sorter
 
     sorted = Array.new(Sorter.get_length(unsorted))
 
-    # TODO multithread stuff
-
     # spawn watchdog timer thread
     watch = Thread.new do
         Timeout::timeout(timeout / 1000.0) do
@@ -123,8 +121,6 @@ module Sorter
     storage_idx = merged_output_left + mid - left1 + pivot - left2
     merged_output[storage_idx] = list[mid]
 
-    # TODO use ascending somehow
-
     concurrent = Thread.new { Sorter.merge(list, left1, mid - 1, left2, pivot - 1, merged_output, merged_output_left, ascending) }
     Sorter.merge(list, mid + 1, right1, pivot, right2, merged_output, storage_idx + 1, ascending)
     concurrent.join
@@ -148,7 +144,7 @@ module Sorter
     right = left > right + 1 ? left : right + 1
     while left < right do
       mid = (left + right) / 2
-      if target <= list[mid] # TODO use ascending
+      if target <= list[mid]
         right = mid
       else
         left = mid + 1
