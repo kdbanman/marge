@@ -66,4 +66,12 @@ class SorterIOTests < Minitest::Test
 		list.each {|val| assert(val.is_a? String)}
 	end
 
+	def test_mixed_strings
+		list = ["dasd324234@$%", "4%{$fsdjhagsh", "FSDF", "4209843fdfgsd"]
+		stringForm = list.inject {|str, n| str + "\n" + n}
+		out = parse_list stringForm
+		assert(out.is_a? Enumerable)
+		out.each {|val| assert(val.is_a? String)}
+		assert(list.sort == out.sort)
+	end
 end
